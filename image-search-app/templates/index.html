@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Powered Image Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .thumbnail {
+            max-width: 200px;
+            text-align: center;
+        }
+        .thumbnail img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+        .filename {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI powered image search engine</h1>
+    
+    <form action="/search/" method="get">
+        <label for="query">Input your query: </label>
+        <input type="text" id="query" name="query"><br><br>
+        <input type="submit" value="Search">
+    </form>
+    <br>
+    <form action="/" method="get">
+        <input type="submit" value="Clear">
+    </form>
+
+    {% if image_list %}
+        <div class="gallery">
+            {% for img in image_list %}
+
+            <div class="thumbnail">
+                <img src="{{ img }}">
+                <div class="filename">{{ img.split('/')[-1] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No relevant images retrieved yet.</p>
+    {% endif %}
+    <br>
+    {% if explanation_list %}
+        <div class="explanations">
+            {% for img,explanation in image_list|zip(explanation_list) %}
+                    <div class="explanation">
+                        <div>{{img.split('/')[-1]}} {{ explanation.split('/')[-1] }}</div><br>
+                    </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No explanations generated yet.</p>
+    {% endif %}
+</body>
+</html>
